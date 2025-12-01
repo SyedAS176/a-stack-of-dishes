@@ -5,6 +5,10 @@ class Dish {
     std::string description;
 
   public:
+    Dish() {              // Default constructor; you need this or the program crashes
+      description = "";
+    }
+
     Dish(std::string description) {
       this->description = description;
     }
@@ -12,4 +16,4 @@ class Dish {
     std::string get_description() {
       return this->description;
     }
-}
+};
