@@ -3,18 +3,17 @@
 #include <catch2/benchmark/catch_constructor.hpp>
 #include <catch2/generators/catch_generators_range.hpp>
 
+#include "../src/dish.hpp"
 #include "../src/dishstack.cpp"
 
 TEST_CASE("Initial stack is empty") {
-    DishStack stack;
+    Stack<Dish> stack;
     REQUIRE(stack.size() == 0);
-
-    Dish peeked = stack.peek();
-    REQUIRE(peeked.get_description() == "");
+    REQUIRE(stack.peek().get_description() == "");
 }
 
 TEST_CASE("Push dishes onto the stack") {
-    DishStack stack;
+    Stack<Dish> stack;
     Dish one("One fish");
     Dish two("Two fish");
 
@@ -22,13 +21,11 @@ TEST_CASE("Push dishes onto the stack") {
     stack.push(two);
 
     REQUIRE(stack.size() == 2);
-
-    Dish top = stack.peek();
-    REQUIRE(top.get_description() == "Two fish");
+    REQUIRE(stack.peek().get_description() == "Two fish");
 }
 
 TEST_CASE("Pop dishes from the stack") {
-    DishStack stack;
+    Stack<Dish> stack;
     Dish red("Red fish");
     Dish blue("Blue fish");
 
@@ -51,25 +48,26 @@ TEST_CASE("Pop dishes from the stack") {
 }
 
 TEST_CASE("Stack overflow") {
-    DishStack stack;
+    Stack<Dish> stack;
 
-    // Fill the stack to MAX_SIZE
     for (int i = 0; i < 100; i++) {
         stack.push(Dish("Dish " + std::to_string(i)));
     }
 
     REQUIRE(stack.size() == 100);
 
-    // Attempt to push beyond MAX_SIZE
     stack.push(Dish("Overflow dish"));
     REQUIRE(stack.size() == 100);
-
-    // Top dish should still be the last valid one
     REQUIRE(stack.peek().get_description() == "Dish 99");
 }
 
-TEST_CASE("Peek on empty stack") {
-    DishStack stack;
-    Dish peeked = stack.peek();
-    REQUIRE(peeked.get_description() == "");
+TEST_CASE("Clear stack") {
+    Stack<Dish> stack;
+    stack.push(Dish("One fish"));
+    stack.push(Dish("Two fish"));
+    REQUIRE(stack.size() == 2);
+
+    stack.clear();
+    REQUIRE(stack.size() == 0);
+    REQUIRE(stack.peek().get_description() == "");
 }

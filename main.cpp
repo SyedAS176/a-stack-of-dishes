@@ -1,9 +1,11 @@
-#include "src/dishstack.hpp"
 #include <iostream>
+#include "src/dishstack.hpp"
+#include "src/dish.hpp"
+
 using namespace std;
 
 int main() {
-  DishStack stack;
+  Stack<Dish> stack;
 
   Dish one_dish("A dish with one fish pattern on it");
   Dish two_dish("A dish with two fish patterns on it");
